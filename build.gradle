@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id 'war'
+    id "com.bmuschko.cargo" version "2.6.1"
+}
+group 'com.ooplab.grdlCourier'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.19'
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+
+
+
+}
+cargo {
+    containerId = 'tomcat9x'
+    port = 8080
+    deployable {
+        context = 'mycontext'
+    }
+    remote {
+        hostname = 'localhost'
+        username = 'deployuser'
+        password = 'deployuser'
+    }
+}
