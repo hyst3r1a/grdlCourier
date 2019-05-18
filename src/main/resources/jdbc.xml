@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Resource name="jdbc/appname" auth="Container"
+          type="javax.sql.DataSource" maxActive="100"
+          maxIdle="30" maxWait="10000"
+          username="root"
+          password="phantasm322"
+          driverClassName="jdbc.driver.name"
+          url="jdbc:mysql://localhost:3306/online_courier?useUnicode=true&amp;amp;useJDBCCompliantTimezoneShift=true&amp;amp;useLegacyDatetimeCode=false&amp;amp;serverTimezone=UTC"/>
