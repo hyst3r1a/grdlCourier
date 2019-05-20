@@ -1,5 +1,8 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -10,9 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/main")
 public class MainServlet extends HttpServlet {
+    final static Logger logger = LogManager.getLogger("com.zetcode");
        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+           logger.info("post");
            request.setAttribute("sessionId", 0);
 
 
@@ -40,7 +44,7 @@ public class MainServlet extends HttpServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        logger.info("get");
         request.setAttribute("sessionId", 0);
 
 

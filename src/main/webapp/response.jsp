@@ -101,7 +101,7 @@
      </c:forEach>
                                         </tbody>
                                     </table>
-                                    <form action="main" method="POST">
+                                    <form action="main" method="GET">
                                      <input type="hidden" name="sessionId" id="sessionId" value="102">
                                     <label for="name">Find driver</label><br />
                                      <input name="reqID" type="text" value="Request ID" required="required" pattern="[0-9-]{1,30}"/>
@@ -208,7 +208,7 @@
 
      </c:forEach>
       </tbody></table>
-<form action="main" method="GET">
+<form action="main" method="POST">
  <input type="hidden" name="sessionId" id="sessionId" value="104">
   <input type="hidden" name="currentUser" id="currentUser" value=<c:out value="${currentUser}"/>>
 <input name="reqID" type="text" value="Id" /> <br /> 

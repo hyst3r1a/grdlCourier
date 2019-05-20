@@ -1,5 +1,8 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 class RouteDAO {
+    final static Logger logger = LogManager.getLogger("com.zetcode");
     ArrayList<Route> getRouteFromDB(int id, String destination, String cargo ){
         ArrayList<Route> getArr = new ArrayList<Route>();
         DataConnection dConn = new DataConnection();
@@ -41,6 +45,7 @@ class RouteDAO {
                 getArr.add(temp);
             }conn.close();
         }catch(SQLException e) {
+            logger.info(e.toString());
         }
         return getArr;
     }

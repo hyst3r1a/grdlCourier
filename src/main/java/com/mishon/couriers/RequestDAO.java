@@ -1,5 +1,8 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 class RequestDAO {
+    final static Logger logger = LogManager.getLogger("com.zetcode");
     ArrayList<Request> getRequestFromDB(int id, String issuer, String date, int capacity,
                                         int price, int car, int route ){
         ArrayList<Request> getArr = new ArrayList<Request>();
@@ -67,6 +71,7 @@ class RequestDAO {
                 getArr.add(temp);
             }conn.close();
         }catch(SQLException e) {
+            logger.info(e.toString());
         }
         return getArr;
     }
@@ -81,7 +86,7 @@ class RequestDAO {
             conn.close();
         } catch (SQLException e) {
             System.out.println("Corrupted SQL 'INSERT INTO' query(Request): " +  SQLQuery + "\n Stack trace: ");
-            e.printStackTrace();
+            logger.info(e.toString());
         }
     }
     public void updateRequestAssignment(String newCar, String reqId){
@@ -95,7 +100,7 @@ class RequestDAO {
             conn.close();
         } catch (SQLException e) {
             System.out.println("Corrupted SQL 'UPDATE' query(Request): " +  SQLQuery + "\n Stack trace: ");
-            e.printStackTrace();
+            logger.info(e.toString());
         }
     }
     public void removeRequest(String reqId){
@@ -109,7 +114,7 @@ class RequestDAO {
             conn.close();
         } catch (SQLException e) {
             System.out.println("Corrupted SQL 'DELETE' query(Request): " +  SQLQuery + "\n Stack trace: ");
-            e.printStackTrace();
+            logger.info(e.toString());
         }
     }
 }

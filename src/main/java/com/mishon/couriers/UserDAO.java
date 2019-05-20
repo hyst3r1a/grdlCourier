@@ -1,5 +1,8 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -9,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 class UserDAO {
+    final static Logger logger = LogManager.getLogger("com.zetcode");
     ArrayList<User> getUserFromDB(int id, String name, String type, String pass ){
         ArrayList<User> getArr = new ArrayList<User>();
         DataConnection dConn = new DataConnection();
@@ -54,7 +58,8 @@ class UserDAO {
                 }
                 conn.close();
             } catch (SQLException e) {
-            }//}catch(Exception e){e.printStackTrace();}
+                logger.info(e.toString());
+            }
             return getArr;
 
     }

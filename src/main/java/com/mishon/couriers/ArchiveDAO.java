@@ -1,10 +1,13 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 class ArchiveDAO {
-
+    final static Logger logger = LogManager.getLogger("com.zetcode");
     ArrayList<Archive> getArchiveFromDB(int id, int route, int carid, int income,
                                         String date, int expense, String completionMessage ){
         ArrayList<Archive> getArr = new ArrayList<Archive>();
@@ -72,6 +75,7 @@ try {
     }
     conn.close();
 }catch(SQLException e) {
+    logger.info(e.toString());
 }
 
 return getArr;
@@ -87,7 +91,7 @@ public void addArchiveToDB(String route, String car, String income, String date,
         conn.close();
     } catch (SQLException e) {
          System.out.println("Corrupted SQL 'INSERT INTO' query(Request): " + SQLQuery + "\n Stack trace: ");
-        e.printStackTrace();
+        logger.info(e.toString());
     }
 }
     }

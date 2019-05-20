@@ -1,5 +1,8 @@
 package com.mishon.couriers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 class CarDAO {
+    final static Logger logger = LogManager.getLogger("com.zetcode");
     ArrayList<Car> getCarFromDB(int id, String car, String type, int driver,
                                 int capacity, int repairs) {
         ArrayList<Car> getArr = new ArrayList<Car>();
@@ -67,6 +71,7 @@ class CarDAO {
             }
             conn.close();
         } catch (SQLException e) {
+            logger.info(e.toString());
         }
         return getArr;
     }
@@ -81,7 +86,7 @@ class CarDAO {
             conn.close();
         } catch (SQLException e) {
             System.out.println("Corrupted SQL 'UPDATE' query(Car): " + SQLQuery + "\n Stack trace: ");
-            e.printStackTrace();
+            logger.info(e.toString());
         }
     }
     public void breakCar(int carId, int expense) {
@@ -94,7 +99,7 @@ class CarDAO {
             conn.close();
         } catch (SQLException e) {
             System.out.println("Corrupted SQL 'UPDATE' query(Car): " + SQLQuery + "\n Stack trace: ");
-            e.printStackTrace();
+            logger.info(e.toString());
         }
     }
 }
