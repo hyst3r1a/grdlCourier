@@ -3,58 +3,28 @@ package com.mishon.couriers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 class CarDAO {
     final static Logger logger = LogManager.getLogger("com.zetcode");
-    ArrayList<Car> getCarFromDB(int id, String car, String type, int driver,
-                                int capacity, int repairs) {
-        ArrayList<Car> getArr = new ArrayList<Car>();
+    List<Car> getCarFromDB(int id, String car, String type, int driver,
+                                int capacity, int repairs)  throws SQLException{
+        List<Car> getArr = new ArrayList<Car>();
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getDBConnection();
-        String SQLQuery = "SELECT * FROM cars WHERE";
-        if (id == -1) {
-            SQLQuery += " idcars LIKE '%' AND";
-        } else {
-            SQLQuery += " idcars=" + id + "AND";
-        }
-        if (car.equals("")) {
-            SQLQuery += " car LIKE '%' AND";
-        } else {
-            SQLQuery += " car=" + car + "AND";
-        }
+        final String SQLQuery = String.format(
+                "SELECT * FROM archive WHERE idcars=%s AND car=%s AND type=%s AND driver=%s AND capacity>=%s AND repairs=%s",
+                id== Constants.SELECT_ALL_INT ? "LIKE '%'":"= " + id,
+                car.equals(Constants.SELECT_ALL_STR) ? "LIKE '%'" : "= " + car,
+                type.equals(Constants.SELECT_ALL_STR) ? "LIKE '%'" : "= " + type,
+                driver== Constants.SELECT_ALL_INT ? "LIKE '%'" : "= " + driver,
+                capacity== Constants.SELECT_ALL_INT ? "LIKE '%'" : "= " + capacity,
+                repairs== Constants.SELECT_ALL_INT ? "LIKE '%'" : "= " + repairs);
 
-        if (type.equals("")) {
-            SQLQuery += " type LIKE '%' AND";
-        } else {
-            SQLQuery += " type=" + type + "AND";
-        }
 
-        if (driver == -1) {
-            SQLQuery += " driver LIKE '%' AND";
-        } else {
-            SQLQuery += " driver=" + driver + " AND";
-        }
-
-        if (capacity == -1) {
-            SQLQuery += " m3 LIKE '%' AND";
-        } else {
-            SQLQuery += " m3>" + (capacity - 1) + " AND";
-        }
-
-        if (repairs == -1) {
-            SQLQuery += " needRepairs LIKE '%'";
-        } else {
-            SQLQuery += " needRepairs=" + repairs;
-        }
-
-//System.out.println(SQLQuery);
-        try {
-            Statement stat = conn.createStatement();
+            PreparedStatement stat = conn.prepareStatement(SQLQuery);
             ResultSet rs = stat.executeQuery(SQLQuery);
 
             while (rs.next()) {
@@ -70,36 +40,28 @@ class CarDAO {
                 getArr.add(temp);
             }
             conn.close();
-        } catch (SQLException e) {
-            logger.info(e.toString());
-        }
+
         return getArr;
     }
 
-    public void fixCar(int carId) {
+    public void fixCar(int carId) throws SQLException{
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getDBConnection();
-        String SQLQuery = "UPDATE cars SET needRepairs=0 WHERE idcars=" + carId;
-        try {
-            Statement stat = conn.createStatement();
+        String SQLQuery = String.format("UPDATE cars SET needRepairs=0 WHERE idcars= %s", carId);
+
+            PreparedStatement stat = conn.prepareStatement(SQLQuery);
             stat.executeUpdate(SQLQuery);
             conn.close();
-        } catch (SQLException e) {
-            System.out.println("Corrupted SQL 'UPDATE' query(Car): " + SQLQuery + "\n Stack trace: ");
-            logger.info(e.toString());
-        }
+
     }
-    public void breakCar(int carId, int expense) {
+    public void breakCar(int carId, int expense) throws SQLException {
         DataConnection dConn = new DataConnection();
         Connection conn = dConn.getDBConnection();
-        String SQLQuery = "UPDATE cars SET needRepairs="+ expense+" WHERE idcars=" + carId;
-        try {
-            Statement stat = conn.createStatement();
+        String SQLQuery = String.format("UPDATE cars SET needRepairs=%s WHERE idcars=%s",expense, carId);
+
+            PreparedStatement stat = conn.prepareStatement(SQLQuery);
             stat.executeUpdate(SQLQuery);
             conn.close();
-        } catch (SQLException e) {
-            System.out.println("Corrupted SQL 'UPDATE' query(Car): " + SQLQuery + "\n Stack trace: ");
-            logger.info(e.toString());
-        }
+
     }
 }
