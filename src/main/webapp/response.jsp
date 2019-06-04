@@ -2,10 +2,8 @@
 
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.mishon.couriers.Route" %>
-<%@ page import="com.mishon.couriers.Request" %>
-<%@ page import="com.mishon.couriers.Car" %>
-<%@ page import="com.mishon.couriers.User" %>
+<%@ page import="com.mishon.couriers.Entities.*" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
                             <!--Getting session here-->
 
@@ -48,7 +46,7 @@
                                         </tbody>
                                     </table>
 
-                                    <form action="main" method="POST">
+                                    <form action="reqinsert" method="POST">
                                      <input type="hidden" name="sessionId" id="sessionId" value="101">
                                     <label for="name">Add new request</label><br />
                                      <input name="issuer" type="text" value="Issuer" required="required" pattern="[a-zA-Z0-9-]{1,30}"/> <br />
@@ -101,7 +99,7 @@
      </c:forEach>
                                         </tbody>
                                     </table>
-                                    <form action="main" method="GET">
+                                    <form action="dget" method="GET">
                                      <input type="hidden" name="sessionId" id="sessionId" value="102">
                                     <label for="name">Find driver</label><br />
                                      <input name="reqID" type="text" value="Request ID" required="required" pattern="[0-9-]{1,30}"/>
@@ -139,7 +137,7 @@
       
                                         </tbody>
                                     </table>
-                                    <form action="main" method="POST">
+                                    <form action="dassign" method="POST">
                                      <input type="hidden" name="sessionId" id="sessionId" value="103">
                                      <input type="hidden" name="reqID" id="reqID" value=<c:out value="${currentRequest}"/>>
                                     <label for="name">Assign driver</label><br />
@@ -156,7 +154,7 @@
                                     <h3>Assigned requests:</h3>
 
                                
-	<form action="main" method="POST">
+	<form action="dfix" method="POST">
      <input type="hidden" name="sessionId" id="sessionId" value="106">
 	<button type="submit" value="Submit">Car fixed</button>
        <input type="hidden" name="sessionId" id="sessionId" value="106">
@@ -208,7 +206,7 @@
 
      </c:forEach>
       </tbody></table>
-<form action="main" method="POST">
+<form action="dcomplete" method="POST">
  <input type="hidden" name="sessionId" id="sessionId" value="104">
   <input type="hidden" name="currentUser" id="currentUser" value=<c:out value="${currentUser}"/>>
 <input name="reqID" type="text" value="Id" /> <br /> 

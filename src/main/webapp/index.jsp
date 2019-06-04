@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="post"  action="main">
+<form method="post"  action="auth">
   <h2>Sign In:</h2>
    <input type="hidden" name="sessionId" id="sessionId" value="0"/>
   <input type="text" id="login-input" name="login" /></br>
